@@ -3,93 +3,30 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Calculator</title>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <style>
-        html {
-            font-family: 'Open Sans', sans-serif;
-        }
-
-        .rounded,
-        .button {
-            -webkit-border-radius: 10px;
-            -moz-border-radius: 10px;
-            border-radius: 10px;
-        }
-
-        #calculator {
-            width: 480px;
-            height: 620px;
-            margin: 20px auto;
-            padding-top:20px;
-            background-image: -webkit-gradient(
-                linear,
-                left bottom,
-                left top,
-                color-stop(0.70, #AFAFAF),
-                color-stop(0.9, #D2D2D2)
-            );
-            background-image: -o-linear-gradient(top, #AFAFAF 70%, #D2D2D2 90%);
-            background-image: -moz-linear-gradient(top, #AFAFAF 70%, #D2D2D2 90%);
-            background-image: -webkit-linear-gradient(top, #AFAFAF 709%, #D2D2D2 90%);
-            background-image: -ms-linear-gradient(top, #AFAFAF 70%, #D2D2D2 90%);
-            background-image: linear-gradient(to top, #AFAFAF 70%, #D2D2D2 90%);
-        }
-
-        #resultContainer,
-        #buttons {
-            width:400px;
-            margin: 20px 40px;
-        }
-
-        #resultContainer {
-            position: relative;
-            margin: 20px 40px;
-            width:400px;
-            height:90px;
-            background: #f0fbc8;
-        }
-
-        #result {
-            position:absolute;
-            right:40px;
-            top: 4px;
-            font-size: 2em;
-        }
-
-        #buttons {
-            margin: 20px auto;
-            text-align: center;
-        }
-
-        .button {
-            display: inline-block;
-            width: 86px;
-            height: 46px;
-            line-height: 46px;
-            margin: 10px 4px;
-            background: #d4d4d4;
-            text-align: center;
-            cursor: pointer;
-            box-shadow:
-            0 1px 0 rgba(0,0,0,.08),
-            inset 0 1px 2px rgba(255,255,255,.67),
-            inset 0 -1px 0 rgba(0,0,0,.14);
-        }
-    </style>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css' />
+    <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div id="calculator" class="rounded">
+        <div id="actions">
+            <div id="close"></div>
+            <div id="minimize"></div>
+            <div id="maximize"></div>
+        </div>
         <div id="resultContainer" class="rounded">
             <div id="result">0</div>
         </div>
         <div id="buttons">
-            <div class="button">MC</div>
+            <div class="button" id="clearMemory">MC</div>
             <div class="button">M+</div>
             <div class="button">M-</div>
             <div class="button">MR</div>
 
             <div class="button" id="clear">C</div>
-            <div class="button">+-</div>
+            <div class="button" id="polarity">
+                <div>+</div>
+                <div>-</div>
+            </div>
             <div class="button operator" id="divide">%</div>
             <div class="button operator" id="multiply">X</div>
 
@@ -108,90 +45,10 @@
             <div class="button num">3</div>
             <div class="button" id="equals">=</div>
 
-            <div class="button num">0</div>
-            <div class="button">.</div>
+            <div class="button" id="zero">0</div>
+            <div class="button" id="decimal">.</div>
         </div>
     </div>
-    <script type="application/javascript">
-
-        /*** DOM elements ***/
-
-        var elResult = document.getElementById('result'),
-            elClear = document.getElementById('clear'),
-            elAdd = document.getElementById('add'),
-            elDivide = document.getElementById('divide'),
-            elMultiply = document.getElementById('multiply'),
-            elSubtract = document.getElementById('subtract'),
-            elEquals = document.getElementById('equals'),
-            elsNumbers = document.getElementsByClassName('num'),
-            elsOperators = document.getElementsByClassName('operator');
-
-        var lastNum;
-        var currentOperator;
-        var resetResult = false;
-
-        /*** Event handlers ***/
-
-        var onOperatorClick = function(e) {
-            lastNum = parseFloat(elResult.innerHTML);
-            resetResult = true;
-            currentOperator = e.currentTarget.innerText;
-        };
-
-        var onClearClick = function() {
-            lastNum = 0;
-            elResult.innerHTML = lastNum.toString();
-        };
-
-        var onEqualsClick = function() {
-            var result;
-            var currentNum = parseFloat(elResult.innerHTML);
-
-            switch (currentOperator) {
-                case '+' :
-                    result = lastNum + currentNum;
-                    break;
-
-                case '-' :
-                    result = lastNum - currentNum;
-                    break;
-
-                case 'X' :
-                    result = lastNum * currentNum;
-                    break;
-
-                case '%' :
-                    result = lastNum / currentNum;
-                    break;
-            }
-
-            elResult.innerHTML = result;
-        };
-
-        var onNumberClick = function(e) {
-            var num = parseInt(e.target.innerText);
-
-            if (resetResult) {
-                resetResult = false;
-                elResult.innerHTML = num.toString();
-            } else {
-                elResult.innerHTML = parseFloat(elResult.innerHTML + num).toString();
-            }
-        };
-
-        /*** Event handler bindings ***/
-
-        elClear.addEventListener('click', onClearClick);
-        elEquals.addEventListener('click', onEqualsClick);
-
-        for (var i = 0; i < elsOperators.length; i++) {
-            elsOperators[i].addEventListener('click', onOperatorClick);
-        }
-
-        for (var j = 0; j < elsNumbers.length; j++) {
-            elsNumbers[j].addEventListener('click', onNumberClick);
-        }
-
-    </script>
+    <script src="calculator.js"></script>
 </body>
 </html>
